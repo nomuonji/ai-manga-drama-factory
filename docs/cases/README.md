@@ -19,4 +19,5 @@
 |---|---|---|---|---|
 | [20261014-ai-manga-hair-teaser.md](20261014-ai-manga-hair-teaser.md) | AI漫画（写真漫画） | 第1話クリフハンガー | 7.6秒 | 笑われている気がする → 自分の頭 → ▼大事件▼ |
 | [20261117-ai-drama-fat-freezing-clinic.md](20261117-ai-drama-fat-freezing-clinic.md) | AIドラマ（実写風） | 比較＋盗み聞き | 2分4秒 | 寝たふりの彼氏が、彼女と細マッチョの友人の会話を聞く |
+| [20261117-ai-cm-unaimed.md](20261117-ai-cm-unaimed.md) | 生成AI動画（おまかせ） | 謎商品のテレビCM | 15秒 | 「なんかわけのわからない動画作って」だけで出た謎家電CM。狙わない発想の基準 |
 | [20261014-claude-code-manga-workflow.md](20261014-claude-code-manga-workflow.md) | 作り方の記録 | — | — | 商品URL→60秒漫画動画を40〜60分で作る手順（Claude Code） |
