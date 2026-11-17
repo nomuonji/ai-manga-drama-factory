@@ -160,10 +160,15 @@ def clip_path(b, s):
     return pathlib.Path(b["_out"]) / "clips" / f"{s['id']}-{h}.mp4"
 
 
-def motion_prompt(b, s):
+def native_for(b, s) -> bool:
+    """True when the video model should speak this shot's line (shot setting overrides the global one)."""
     _, _, native = model(b)
+    return bool(native and s.get("native_audio", b.get("native_audio", True)))
+
+
+def motion_prompt(b, s):
     p = s["motion"]
-    if native and b.get("native_audio", True) and s.get("line"):
+    if native_for(b, s) and s.get("line"):
         cast = {c["id"]: c for c in b.get("characters", [])}
         sp = cast.get(s.get("speaker"), {}).get("name", "the character")
         p += f' {sp} says in natural Japanese: "{s["line"]}"'
@@ -207,7 +212,7 @@ def gen_clips(b):
                    "duration": str(s.get("seconds", 5))}
         payload.update(b.get("model_params", {}))
         if native:
-            payload.setdefault("generate_audio", bool(b.get("native_audio", True)))
+            payload.setdefault("generate_audio", native_for(b, s))
         print("clip", s["id"], ep)
         res = fal_run(ep, payload)
         url = (res.get("video") or {}).get("url") or res.get("video_url")
@@ -219,9 +224,10 @@ def gen_clips(b):
 
 # ---------------------------------------------------------------- voices (when the video model is silent)
 
-def wants_tts(b):
-    _, _, native = model(b)
-    return not (native and b.get("native_audio", True))
+def wants_tts(b, s=None):
+    if s is not None:
+        return not native_for(b, s)
+    return any(not native_for(b, x) for x in b["shots"])
 
 
 def line_voice(b, s):
@@ -237,11 +243,11 @@ def voice_file(b, s):
 
 
 def gen_voices(b):
-    if not wants_tts(b):
-        print("model speaks the lines natively; skipping VOICEVOX")
+    if not wants_tts(b) and not os.environ.get("DRAMA_STILLS"):
+        print("model speaks every line natively; skipping VOICEVOX")
         return
     for s in b["shots"]:
-        if not s.get("line") or not line_voice(b, s):
+        if not s.get("line") or not line_voice(b, s) or not wants_tts(b, s):
             continue
         fake = {"text": s["line"], "say": s["line"]}
         brief = {"characters": [], "narrator": line_voice(b, s), "_out": b["_out"]}
@@ -300,7 +306,7 @@ def assemble(b, stills_only=False):
             amap = "0:a?"
         vfile = voice_file(b, s)
         cmd = ["ffmpeg", "-y", "-loglevel", "error"] + src + ["-i", str(sub)] + audio
-        if wants_tts(b) and vfile.exists():
+        if (stills_only or wants_tts(b, s)) and vfile.exists():
             cmd += ["-i", str(vfile)]
             amap = f"{len([x for x in cmd if x == '-i']) - 1}:a"
         cmd += ["-filter_complex", f"[0:v]{vf}[v]", "-map", "[v]", "-map", amap, "-t", str(secs),
@@ -341,6 +347,13 @@ def assemble(b, stills_only=False):
     print("wrote", final)
 
 
+def _stills_voices(b):
+    """The free preview always uses VOICEVOX for every line, even if clips will speak natively."""
+    for s in b["shots"]:
+        s["native_audio"] = False
+    gen_voices(b)
+
+
 def main():
     if len(sys.argv) < 3:
         print(__doc__)
@@ -354,7 +367,7 @@ def main():
      "clips": lambda: (cost(b), gen_clips(b)),
      "voices": lambda: gen_voices(b),
      "assemble": lambda: assemble(b),
-     "stills": lambda: (gen_voices(b) if os.environ.get("VOICEVOX_URL") else None, assemble(b, stills_only=True)),
+     "stills": lambda: (_stills_voices(b) if os.environ.get("VOICEVOX_URL") else None, assemble(b, stills_only=True)),
      }.get(cmd, lambda: sys.exit(f"unknown command {cmd}"))()
 
 

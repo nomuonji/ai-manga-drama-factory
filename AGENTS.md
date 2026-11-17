@@ -5,9 +5,16 @@ Claude / Codex / ChatGPT / 人、誰が作っても同じ手順・同じ品質�
 
 ## 必ず読む順番
 
-1. `docs/script-method.md` — 脚本の作り方。**絵や動画を作る前に、ここで脚本を確定させる。**
-2. `docs/formats.md` — `manga.json` / `drama.json` の書き方と、ツールの使い方・費用。
-3. `docs/review.md` — 仕上がりの確認と報告の仕方。
+動画づくりに慣れていなくても、この順に読んで手順書どおりに1ステップずつ進めれば作れるように書いてある。**手順を飛ばさない。ゲート（確認項目）を満たすまで次へ進まない。**
+
+1. `docs/playbook-manga.md` または `docs/playbook-drama.md` — 作り方の手順書（コマンド・確認項目・よくある失敗つき）。**ここから始める。**
+2. `docs/script-method.md` — 脚本の作り方。絵や動画を作る前に、ここで脚本を確定させる。
+3. `docs/cases/` — 実際に話題になった事例の1カットずつの分解。脚本を書く前に、近い型の事例を1つ以上読む。
+4. `docs/formats.md` — `manga.json` / `drama.json` の全項目、コマンド、費用。
+5. `docs/prompt-guide.md` — 絵と動きの指示（英語）の書き方。
+6. `docs/craft.md` — 作り手の暗黙知（見る順番、テンポの数字、AIの絵のくせ）。
+7. `docs/review.md` — 仕上がりの確認と報告の仕方。
+8. `docs/troubleshooting.md` — エラーが出たとき。
 
 ## 作業の流れ
 
@@ -36,12 +43,15 @@ Claude / Codex / ChatGPT / 人、誰が作っても同じ手順・同じ品質�
 - 規制のある業種（医療・美容・健康・金融・恋活）は、公開前に人の確認を取る。
 - APIキーは GitHub の Secrets だけに置く。ログやファイルに出さない。
 - 新しい演出・レイアウト・型は、作品の中に直書きせず `tools/` に汎用機能として足し、`docs/formats.md` に書く。
+- 新しく参考になる動画を見つけたら `docs/cases/` に1カットずつ分解して残す。台詞は要約にし、他人の台本を丸ごと書き写さない。
+- 配信して結果が出たら `productions/<id>/results.md` に残し、良かったものは `docs/cases/` にも事例として足す。
 - 脚本の作り方を改善したら `docs/script-method.md` を更新し、根拠（実例のURLや配信結果）を「根拠」節に足す。根拠のない基準は「暫定」と書く。
 
 ## 置き場所
 
 | 何 | どこ |
 |---|---|
+| 成功事例・参考事例の分解 | `docs/cases/`（追加のルールは `docs/cases/README.md`） |
 | 脚本・設計書・結果 | `productions/<id>/script.md`, `manga.json` / `drama.json`, `results.md` |
 | 雛形 | `templates/` |
 | ツール | `tools/manga/manga.py`, `tools/drama/drama.py` |

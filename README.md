@@ -3,7 +3,10 @@
 商品やテーマから、縦型の **AI漫画ショート動画**（写真漫画・漫画風のコマ＋縦書きフキダシ＋効果音＋次回予告）と
 **AIドラマショート動画**（実写風の俳優＋台詞＋字幕＋CTA）を作る工場。
 
+- **はじめに読む手順書**: [漫画](docs/playbook-manga.md) / [ドラマ](docs/playbook-drama.md)
 - 脚本の作り方: [`docs/script-method.md`](docs/script-method.md)
+- 成功事例の分解: [`docs/cases/`](docs/cases/README.md)
+- 絵の指示の書き方: [`docs/prompt-guide.md`](docs/prompt-guide.md) / 作り手の暗黙知: [`docs/craft.md`](docs/craft.md) / 困ったとき: [`docs/troubleshooting.md`](docs/troubleshooting.md)
 - 設計書とツール: [`docs/formats.md`](docs/formats.md)
 - 確認: [`docs/review.md`](docs/review.md)
 - エージェント向け: [`AGENTS.md`](AGENTS.md)
@@ -13,6 +16,7 @@
 ```bash
 pip install pillow numpy   # ffmpeg と Noto CJK フォントも必要
 python tools/manga/manga.py placeholders productions/sample-manga-posture/manga.json
+python tools/manga/manga.py inspect      productions/sample-manga-posture/manga.json
 python tools/manga/manga.py render       productions/sample-manga-posture/manga.json
 # -> outputs/manga/sample-manga-posture/video.mp4（絵はダミー）
 ```

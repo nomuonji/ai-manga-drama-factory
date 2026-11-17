@@ -8,6 +8,7 @@ all Japanese text is drawn here so it is always legible and correct.
 
 Usage
   python tools/manga/manga.py check   productions/<id>/manga.json
+  python tools/manga/manga.py inspect productions/<id>/manga.json   # layout checks + outputs/.../inspect/page-N.png
   python tools/manga/manga.py images  productions/<id>/manga.json   # needs GEMINI_API_KEY
   python tools/manga/manga.py voices  productions/<id>/manga.json   # needs VOICEVOX at $VOICEVOX_URL
   python tools/manga/manga.py render  productions/<id>/manga.json   # needs ffmpeg
@@ -57,7 +58,11 @@ LAYOUTS = {
     "split-wide-right": [(0, 0, 0.38, 1), (0.38, 0, 0.62, 1)],
     "three": [(0, 0, 1 / 3, 1), (1 / 3, 0, 1 / 3, 1), (2 / 3, 0, 1 / 3, 1)],
 }
-PAGE_TOP, PAGE_BOTTOM, MARGIN, GUTTER = 70, 1700, 36, 16  # bottom area kept for teaser + phone UI
+# Phone-UI safe zones (YouTube Shorts / TikTok / Reels, 9:16):
+#   top 4% search/tabs, bottom 18% title/caption, right 14% of the lower half = like/comment/share buttons.
+# Panels live in y 0.06-0.76, the teaser bar in 0.77-0.82, nothing important below 0.82.
+PAGE_TOP, PAGE_BOTTOM, MARGIN, GUTTER = 115, 1460, 36, 16
+SAFE_BOTTOM, SAFE_RIGHT_X, SAFE_RIGHT_FROM_Y, SAFE_TOP = int(0.82 * 1920), int(0.86 * 1080), int(0.5 * 1920), int(0.04 * 1920)
 
 
 def page_rects(page: dict) -> list[tuple[int, int, int, int]]:
@@ -85,7 +90,16 @@ def panels(brief: dict):
     """Yield (page_index, panel_index_on_page, panel, rect)."""
     for pi, page in enumerate(brief["pages"]):
         rects = page_rects(page)
+        # Panels are written in READING ORDER and revealed in that order.
+        # reading "ltr" (default): left -> right, like web/ad manga.  "rtl": right -> left, like Japanese print manga.
         flat = [p for r in page["rows"] for p in r["panels"]]
+        if brief.get("reading", "ltr") == "rtl":
+            order, i = [], 0
+            for r in page["rows"]:
+                n = len(LAYOUTS[r.get("layout", "full")])
+                order += list(range(i + n - 1, i - 1, -1))
+                i += n
+            rects = [rects[j] for j in order]
         if len(flat) != len(rects):
             raise SystemExit(f"page {pi}: {len(flat)} panels but layouts give {len(rects)} slots")
         for k, (p, rect) in enumerate(zip(flat, rects)):
@@ -629,9 +643,9 @@ def render(brief: dict):
                 age = t - e["t"]
                 a = min(1.0, age / 0.25)
                 d = ImageDraw.Draw(frame)
-                bar_y = PAGE_BOTTOM + 30
-                d.rectangle((0, bar_y, W, bar_y + 120), fill=(int(17 * a + 255 * (1 - a)),) * 3)
-                d.text((W // 2, bar_y + 60), e["text"], font=teaser_font, fill=(255, 255, 255), anchor="mm")
+                bar_y = PAGE_BOTTOM + 18
+                d.rectangle((0, bar_y, W, bar_y + 100), fill=(int(17 * a + 255 * (1 - a)),) * 3)
+                d.text((W // 2, bar_y + 50), e["text"], font=teaser_font, fill=(255, 255, 255), anchor="mm")
         ff.stdin.write(frame.tobytes())
         if f % FPS == 0:
             frames_for_sheet.append(frame.resize((216, 384)))
@@ -691,6 +705,103 @@ def mix_audio(brief, tl, out):
     subprocess.run(cmd, check=True)
 
 
+# ---------------------------------------------------------------- inspect (machine checks + page stills)
+
+
+def _placed_box(spec, kind, rect, scale):
+    """Where render() will put a bubble/sfx: (x0, y0, x1, y1, moved_px, image)."""
+    im = bubble_image(spec, scale)[0] if kind == "bubble" else sfx_image(spec, scale)
+    x0, y0, w, h = rect
+    px, py = spec.get("at", [0.5, 0.25])
+    cx, cy = x0 + int(px * w), y0 + int(py * h)
+    bx = min(max(cx - im.width // 2, 8), W - im.width - 8)
+    by = min(max(cy - im.height // 2, PAGE_TOP - 50), H - im.height - 8)
+    moved = abs(bx - (cx - im.width // 2)) + abs(by - (cy - im.height // 2))
+    return (bx, by, bx + im.width, by + im.height, moved, im)
+
+
+def _tight(im, box):
+    """Shrink a box to the non-transparent pixels of the image (bubble images carry tail padding)."""
+    bb = im.getbbox() or (0, 0, im.width, im.height)
+    return (box[0] + bb[0], box[1] + bb[1], box[0] + bb[2], box[1] + bb[3])
+
+
+def inspect(brief: dict) -> int:
+    """Check every page's final state. Writes outputs/manga/<id>/inspect/page-N.png. Returns error count."""
+    out = pathlib.Path(brief["_out"]) / "inspect"
+    out.mkdir(parents=True, exist_ok=True)
+    scale = brief.get("text_scale", 1.0)
+    errs = warns = 0
+    pages = {}
+    for pi, k, p, rect in panels(brief):
+        pages.setdefault(pi, []).append((p, rect))
+    for pi, items in pages.items():
+        canvas = Image.new("RGBA", (W, H), (255, 255, 255, 255))
+        boxes = []
+        for p, rect in items:
+            src = pathlib.Path(brief["_dir"]) / p["image"] if p.get("image") else panel_path(brief, p, rect)
+            if src.exists():
+                canvas.paste(fit_cover(Image.open(src).convert("RGB"), rect[2], rect[3], tuple(p.get("focus", (0.5, 0.4)))),
+                             rect[:2])
+            else:
+                ImageDraw.Draw(canvas).rectangle((rect[0], rect[1], rect[0] + rect[2], rect[1] + rect[3]), fill=(220, 220, 220))
+            ImageDraw.Draw(canvas).rectangle((rect[0], rect[1], rect[0] + rect[2] - 1, rect[1] + rect[3] - 1), outline=(0, 0, 0), width=5)
+            for kind, specs in (("bubble", p.get("bubbles", [])), ("sfx", p.get("sfx", []))):
+                for spec in specs:
+                    x0, y0, x1, y1, moved, im = _placed_box(spec, kind, rect, scale)
+                    canvas.alpha_composite(im, (x0, y0))
+                    tb = _tight(im, (x0, y0, x1, y1))
+                    label = f"{p['id']} {kind} '{spec['text'].replace(chr(10), '')[:8]}'"
+                    boxes.append((label, kind, tb, rect))
+                    if moved > 40:
+                        print(f"WARN page{pi} {label}: pushed {moved}px to stay on screen — move 'at' inward")
+                        warns += 1
+                    size = spec.get("size", 40 if kind == "bubble" else 90) * scale
+                    if size < 34:
+                        print(f"WARN page{pi} {label}: text size {size:.0f}px < 34px is hard to read on a phone")
+                        warns += 1
+                    if tb[3] > SAFE_BOTTOM or tb[1] < SAFE_TOP:
+                        print(f"ERROR page{pi} {label}: inside the top/bottom phone-UI zone")
+                        errs += 1
+                    if tb[2] > SAFE_RIGHT_X and tb[3] > SAFE_RIGHT_FROM_Y:
+                        print(f"WARN page{pi} {label}: under the right-side like/comment buttons (x>0.86, y>0.5)")
+                        warns += 1
+                    if kind == "bubble":
+                        area = (tb[2] - tb[0]) * (tb[3] - tb[1])
+                        if area > 0.45 * rect[2] * rect[3]:
+                            print(f"WARN page{pi} {label}: bubble covers {area / (rect[2] * rect[3]):.0%} of its panel — shorten text or enlarge panel")
+                            warns += 1
+                        ox = max(0, rect[0] - tb[0]) + max(0, tb[2] - rect[0] - rect[2])
+                        oy = max(0, rect[1] - tb[1]) + max(0, tb[3] - rect[1] - rect[3])
+                        if ox > (tb[2] - tb[0]) * 0.35 or oy > (tb[3] - tb[1]) * 0.35:
+                            print(f"WARN page{pi} {label}: more than a third sticks out of its panel")
+                            warns += 1
+        for i in range(len(boxes)):
+            for j in range(i + 1, len(boxes)):
+                a, b = boxes[i][2], boxes[j][2]
+                ix = max(0, min(a[2], b[2]) - max(a[0], b[0]))
+                iy = max(0, min(a[3], b[3]) - max(a[1], b[1]))
+                if ix * iy > 0.08 * min((a[2] - a[0]) * (a[3] - a[1]), (b[2] - b[0]) * (b[3] - b[1])):
+                    level = "ERROR" if boxes[i][1] == boxes[j][1] == "bubble" else "WARN"
+                    print(f"{level} page{pi} overlap: {boxes[i][0]}  x  {boxes[j][0]}")
+                    errs += level == "ERROR"
+                    warns += level == "WARN"
+        # draw the phone-UI zones so a human/agent can see them
+        ov = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        d = ImageDraw.Draw(ov)
+        d.rectangle((0, SAFE_BOTTOM, W, H), fill=(255, 0, 0, 60))
+        d.rectangle((0, 0, W, SAFE_TOP), fill=(255, 0, 0, 60))
+        d.rectangle((SAFE_RIGHT_X, SAFE_RIGHT_FROM_Y, W, SAFE_BOTTOM), fill=(255, 0, 0, 60))
+        for label, kind, tb, _ in boxes:
+            d.rectangle(tb, outline=(0, 120, 255, 255) if kind == "bubble" else (0, 170, 0, 255), width=3)
+        canvas.alpha_composite(ov)
+        canvas.convert("RGB").save(out / f"page-{pi + 1}.png")
+    tl = build_timeline(brief)
+    print(f"estimated length {tl['duration']:.1f}s (real VOICEVOX audio is usually ~1.3x longer than this estimate)")
+    print(f"inspect: {errs} errors, {warns} warnings; pages saved to {out}")
+    return errs
+
+
 # ---------------------------------------------------------------- main
 
 
@@ -705,6 +816,8 @@ def main():
     if cmd == "check":
         tl = build_timeline(brief)
         print(f"ok: {sum(1 for _ in panels(brief))} panels, ~{tl['duration']:.1f}s (estimated without voices)")
+    elif cmd == "inspect":
+        sys.exit(1 if inspect(brief) else 0)
     elif cmd == "images":
         gen_images(brief)
     elif cmd == "placeholders":
@@ -716,6 +829,7 @@ def main():
     elif cmd == "all":
         gen_images(brief)
         gen_voices(brief)
+        inspect(brief)
         render(brief)
     else:
         sys.exit(f"unknown command {cmd}")
