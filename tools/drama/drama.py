@@ -62,6 +62,19 @@ def load(path):
     b["_dir"] = str(p.parent)
     b["_out"] = str(ROOT / "outputs" / "drama" / b["id"])
     b.setdefault("style", "photo-drama")
+    # Hooks: separately made opening segments (2-8 s) that sit BEFORE the story and can be swapped.
+    # Every hook is rendered into its own variant: video-<hook id>.mp4 (hook + story + CTA).
+    main = b.get("shots", [])
+    for i, s in enumerate(main):
+        s.setdefault("id", f"s{i + 1:02d}")
+    hook_shots = []
+    for h in b.get("hooks", []):
+        for j, s in enumerate(h.get("shots", [])):
+            s.setdefault("id", f"{h['id']}-{j + 1}")
+            s["_hook"] = h["id"]
+            hook_shots.append(s)
+    b["_main"] = main
+    b["shots"] = hook_shots + main  # everything that needs a keyframe / clip / voice
     return b
 
 
@@ -91,6 +104,14 @@ def check(b):
             errs.append(f"{s['id']}: needs 'motion' (what moves / is said in the clip)")
         if len(s.get("sub", "").replace("\n", "")) > 30:
             print(f"WARN {s['id']}: subtitle long — split the shot")
+    for h in b.get("hooks", []):
+        secs = sum(x.get("seconds", 5) for x in h.get("shots", []))
+        if secs > 8:
+            print(f"WARN hook {h['id']}: {secs}s — a hook should be 2-8 s, then the story starts")
+        if not h.get("shots"):
+            errs.append(f"hook {h['id']}: no shots")
+    if not b.get("hooks"):
+        print("WARN no hooks: make 2-3 swappable opening segments (see docs/script-method.md, section 3.5)")
     for e in errs:
         print("ERROR", e)
     return errs
@@ -100,6 +121,8 @@ def cost(b):
     ep, pps, _ = model(b)
     secs = sum(s.get("seconds", 5) for s in b["shots"])
     imgs = len(b["shots"]) + len(b.get("characters", []))
+    if b.get("hooks"):
+        print(f"{len(b['hooks'])} hook variants -> video-<hook>.mp4 each (hooks are generated once, the story is shared)")
     print(f"model {ep}: {len(b['shots'])} shots, {secs}s of video ≈ ${secs * pps:.2f}  "
           f"+ {imgs} images ≈ ${imgs * 0.04:.2f}  (approximate — check current fal / Gemini pricing)")
 
@@ -285,7 +308,7 @@ def assemble(b, stills_only=False):
     out = pathlib.Path(b["_out"])
     tmp = out / "parts"
     tmp.mkdir(parents=True, exist_ok=True)
-    parts = []
+    part_of = {}
     for i, s in enumerate(b["shots"]):
         sub = tmp / f"{s['id']}-sub.png"
         subtitle_png(s.get("sub", s.get("line", "")), sub)
@@ -321,7 +344,8 @@ def assemble(b, stills_only=False):
             subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(part), "-f", "lavfi", "-i",
                             "anullsrc=r=48000:cl=stereo", "-shortest", "-c:v", "copy", "-c:a", "aac", str(fixed)], check=True)
             part = fixed
-        parts.append(part)
+        part_of[s["id"]] = part
+    cta_part = None
     if b.get("cta"):
         cta = tmp / "cta.png"
         cta_png(b, cta)
@@ -330,13 +354,25 @@ def assemble(b, stills_only=False):
                         "-i", str(cta), "-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo", "-shortest",
                         "-vf", f"fps={FPS},setsar=1", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-c:a", "aac", "-ar", "48000",
                         str(part)], check=True)
-        parts.append(part)
-    lst = tmp / "list.txt"
+        cta_part = part
+    variants = [h["id"] for h in b.get("hooks", [])] or [None]
+    base = "preview-stills" if stills_only else "video"
+    for n, hid in enumerate(variants):
+        seq = [part_of[s["id"]] for s in b["shots"] if s.get("_hook") == hid and hid] + \
+              [part_of[s["id"]] for s in b["_main"]] + ([cta_part] if cta_part else [])
+        name = f"{base}-{hid}.mp4" if hid else f"{base}.mp4"
+        _join(b, tmp, seq, out / name, f"{n}")
+        if n == 0 and hid:  # the first hook is also the default video
+            import shutil
+            shutil.copy(out / name, out / f"{base}.mp4")
+
+
+def _join(b, tmp, parts, final, tag):
+    lst = tmp / f"list-{tag}.txt"
     lst.write_text("".join(f"file '{p}'\n" for p in parts))
-    joined = tmp / "joined.mp4"
+    joined = tmp / f"joined-{tag}.mp4"
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(lst),
                     "-c:v", "libx264", "-preset", "veryfast", "-crf", "19", "-c:a", "aac", str(joined)], check=True)
-    final = out / ("preview-stills.mp4" if stills_only else "video.mp4")
     bgm = b.get("bgm")
     if bgm and (ROOT / bgm).exists():
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(joined), "-stream_loop", "-1", "-i", str(ROOT / bgm),

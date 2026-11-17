@@ -152,6 +152,17 @@ python3 tools/manga/manga.py all          productions/<id>/manga.json   # images
 | `bgm` / `bgm_volume` | BGM | 0.08 |
 | `subtitle_y` | 字幕の上端の位置（画面の高さに対する割合） | 0.58 |
 | `cta` | 最後の画面: `headline`、`button`、`seconds` | |
+| `hooks` | 本編の前に付けるフック素材（2〜8秒）。複数書くと、フックごとに `video-<id>.mp4` ができる（本編は共通）。1つ目が `video.mp4` にもなる | |
+
+### hooks[]（フック素材）
+
+| 項目 | 意味 |
+|---|---|
+| `id` | `h1`, `h2`, … |
+| `idea` | どんなフックか（人が読む用。例: 見た目の差／題名で約束／結末を先に） |
+| `shots` | フックのカット（`shots[]` と同じ書き方）。合計2〜8秒。本編と同じ人物を使う |
+
+考え方は `docs/script-method.md` 第3.5節。
 
 ### shots[]（カット）
 
@@ -180,7 +191,7 @@ python3 tools/drama/drama.py voices    productions/<id>/drama.json   # VOICEVOX 
 python3 tools/drama/drama.py assemble  productions/<id>/drama.json   # 字幕・連結・BGM・CTA
 ```
 
-出力（`outputs/drama/<id>/`）: `characters/`、`keyframes/`、`clips/`、`voices/`、`preview-stills.mp4`、`video.mp4`。
+出力（`outputs/drama/<id>/`）: `characters/`、`keyframes/`、`clips/`、`voices/`、`preview-stills.mp4`、`video.mp4`。`hooks` があれば `preview-stills-<id>.mp4` / `video-<id>.mp4` がフックの数だけできる。
 
 ---
 

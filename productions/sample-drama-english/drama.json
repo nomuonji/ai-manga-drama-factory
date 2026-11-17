@@ -10,41 +10,158 @@
   "bgm_volume": 0.07,
   "subtitle_y": 0.6,
   "characters": [
-    {"id": "senpai", "name": "Kenta", "look": "Japanese man, 30, short black hair, navy suit, slightly anxious face",
-     "voice": {"speaker": "青山龍星", "style": "ノーマル"}},
-    {"id": "kohai", "name": "Aoi", "look": "Japanese woman, 24, shoulder-length black hair, white blouse, calm smile",
-     "voice": {"speaker": "冥鳴ひまり", "style": "ノーマル"}},
-    {"id": "client", "name": "Mr. Miller", "look": "American man, 45, light brown hair, grey blazer, friendly"}
+    {
+      "id": "senpai",
+      "name": "Kenta",
+      "look": "Japanese man, 30, short black hair, navy suit, slightly anxious face",
+      "voice": {
+        "speaker": "青山龍星",
+        "style": "ノーマル"
+      }
+    },
+    {
+      "id": "kohai",
+      "name": "Aoi",
+      "look": "Japanese woman, 24, shoulder-length black hair, white blouse, calm smile",
+      "voice": {
+        "speaker": "冥鳴ひまり",
+        "style": "ノーマル"
+      }
+    },
+    {
+      "id": "client",
+      "name": "Mr. Miller",
+      "look": "American man, 45, light brown hair, grey blazer, friendly"
+    }
   ],
   "shots": [
-    {"cast": ["senpai", "client"], "seconds": 5, "camera": "close-up on Kenta, client blurred in foreground",
-     "frame": "Kenta freezes mid-sentence in a meeting, sweat on his forehead, the foreign client waiting",
-     "motion": "Kenta opens his mouth, hesitates, glances down at his notes; the client tilts his head politely",
-     "speaker": "senpai", "line": "えっと…ア、アイ…", "sub": "（やばい…何も出てこない）"},
-    {"cast": ["kohai", "client"], "seconds": 5, "camera": "medium shot",
-     "frame": "Aoi leans forward with a calm smile and speaks to the client",
-     "motion": "Aoi speaks fluently with small hand gestures; the client nods and laughs",
-     "speaker": "kohai", "line": "Let me explain our schedule.", "sub": "後輩が、すらすら話し出した"},
-    {"cast": ["senpai"], "seconds": 4, "camera": "tight close-up",
-     "frame": "Kenta stares at Aoi in disbelief",
-     "motion": "slow push-in on Kenta's face as his expression turns from shock to embarrassment",
-     "speaker": "senpai", "line": "え…いつの間に…", "sub": "え…いつの間に…"},
-    {"cast": ["senpai", "kohai"], "seconds": 5, "camera": "two-shot in the office hallway",
-     "frame": "after the meeting, Kenta catches up with Aoi in the hallway",
-     "motion": "Kenta asks earnestly, Aoi stops and turns around",
-     "speaker": "senpai", "line": "ねえ、英語どうやって勉強したの？", "sub": "ねえ、英語どうやって\n勉強したの？"},
-    {"cast": ["kohai"], "seconds": 5, "camera": "close-up, phone screen not readable",
-     "frame": "Aoi shows her smartphone with a shy smile",
-     "motion": "Aoi turns the phone toward the camera and smiles",
-     "speaker": "kohai", "line": "通勤中に、これだけです", "sub": "通勤中に、これだけです"},
-    {"cast": ["senpai"], "seconds": 5, "camera": "medium shot on a morning train, earphones",
-     "frame": "Kenta on a crowded morning train, earphones in, quietly repeating words",
-     "motion": "Kenta mouths English phrases under his breath, focused",
-     "sub": "それから3ヶ月——"},
-    {"cast": ["senpai", "client"], "seconds": 5, "camera": "medium shot, warm light",
-     "frame": "Kenta confidently shakes hands with the foreign client after a meeting",
-     "motion": "they shake hands and both laugh; Kenta speaks with confidence",
-     "speaker": "senpai", "line": "Thank you. See you next week!", "sub": "今度は、自分の言葉で話せた"}
+    {
+      "cast": [
+        "senpai",
+        "client"
+      ],
+      "seconds": 5,
+      "camera": "close-up on Kenta, client blurred in foreground",
+      "frame": "Kenta freezes mid-sentence in a meeting, sweat on his forehead, the foreign client waiting",
+      "motion": "Kenta opens his mouth, hesitates, glances down at his notes; the client tilts his head politely",
+      "speaker": "senpai",
+      "line": "えっと…ア、アイ…",
+      "sub": "（やばい…何も出てこない）"
+    },
+    {
+      "cast": [
+        "kohai",
+        "client"
+      ],
+      "seconds": 5,
+      "camera": "medium shot",
+      "frame": "Aoi leans forward with a calm smile and speaks to the client",
+      "motion": "Aoi speaks fluently with small hand gestures; the client nods and laughs",
+      "speaker": "kohai",
+      "line": "Let me explain our schedule.",
+      "sub": "後輩が、すらすら話し出した"
+    },
+    {
+      "cast": [
+        "senpai"
+      ],
+      "seconds": 4,
+      "camera": "tight close-up",
+      "frame": "Kenta stares at Aoi in disbelief",
+      "motion": "slow push-in on Kenta's face as his expression turns from shock to embarrassment",
+      "speaker": "senpai",
+      "line": "え…いつの間に…",
+      "sub": "え…いつの間に…"
+    },
+    {
+      "cast": [
+        "senpai",
+        "kohai"
+      ],
+      "seconds": 5,
+      "camera": "two-shot in the office hallway",
+      "frame": "after the meeting, Kenta catches up with Aoi in the hallway",
+      "motion": "Kenta asks earnestly, Aoi stops and turns around",
+      "speaker": "senpai",
+      "line": "ねえ、英語どうやって勉強したの？",
+      "sub": "ねえ、英語どうやって\n勉強したの？"
+    },
+    {
+      "cast": [
+        "kohai"
+      ],
+      "seconds": 5,
+      "camera": "close-up, phone screen not readable",
+      "frame": "Aoi shows her smartphone with a shy smile",
+      "motion": "Aoi turns the phone toward the camera and smiles",
+      "speaker": "kohai",
+      "line": "通勤中に、これだけです",
+      "sub": "通勤中に、これだけです"
+    },
+    {
+      "cast": [
+        "senpai"
+      ],
+      "seconds": 5,
+      "camera": "medium shot on a morning train, earphones",
+      "frame": "Kenta on a crowded morning train, earphones in, quietly repeating words",
+      "motion": "Kenta mouths English phrases under his breath, focused",
+      "sub": "それから3ヶ月——"
+    },
+    {
+      "cast": [
+        "senpai",
+        "client"
+      ],
+      "seconds": 5,
+      "camera": "medium shot, warm light",
+      "frame": "Kenta confidently shakes hands with the foreign client after a meeting",
+      "motion": "they shake hands and both laugh; Kenta speaks with confidence",
+      "speaker": "senpai",
+      "line": "Thank you. See you next week!",
+      "sub": "今度は、自分の言葉で話せた"
+    }
   ],
-  "cta": {"headline": "通勤10分の英語習慣\nまずは無料で", "button": "詳しくはこちら", "seconds": 2.5}
+  "cta": {
+    "headline": "通勤10分の英語習慣\nまずは無料で",
+    "button": "詳しくはこちら",
+    "seconds": 2.5
+  },
+  "hooks": [
+    {
+      "id": "h1",
+      "idea": "見た目の差: 同じ会議室で、英語で笑う後輩と固まる先輩を並べて見せる（物語の時間の外）",
+      "shots": [
+        {
+          "cast": [
+            "kohai",
+            "senpai"
+          ],
+          "seconds": 5,
+          "camera": "medium two-shot, bright office, eye level",
+          "frame": "Aoi laughs naturally while talking on a video call in English; next to her Kenta stares at his laptop, frozen",
+          "motion": "Aoi gestures cheerfully; Kenta slowly turns his head toward her with a stunned face",
+          "sub": "英語ができる後輩と\nできない先輩の差",
+          "native_audio": false
+        }
+      ]
+    },
+    {
+      "id": "h2",
+      "idea": "題名で約束: 固まる先輩の顔のアップに題名テロップ",
+      "shots": [
+        {
+          "cast": [
+            "senpai"
+          ],
+          "seconds": 4,
+          "camera": "extreme close-up, slow push-in",
+          "frame": "Kenta's face in extreme close-up, eyes wide, a drop of sweat on his temple, meeting room behind him",
+          "motion": "very slow push-in; Kenta swallows nervously",
+          "sub": "英語ゼロの先輩が\n3ヶ月後に変わった話",
+          "native_audio": false
+        }
+      ]
+    }
+  ]
 }
