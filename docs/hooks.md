@@ -24,6 +24,13 @@ python3 tools/hooks.py show contrast-pair
 3. `drama.json` の `hooks[]` には `"type": "<一覧のid>"` を書く。漫画は `manga.json` の `"hook_type"`。`check` が一覧に無い id を警告する。
 4. `evidence` が `observed` のものを少なくとも1つ入れる。`hypothesis` だけで固めない。
 
+## 評価と錬成（My Portal の道場）
+
+フックの良し悪しは本人の評価で決める。作り方は My Portal のチャット用スキル `short-form-video-direction`（v10 からフックを最重要工程として追加）で、道場 `short-video-direction`（ショート動画演出道場）が合格率で鍛えている。
+- 本人に見せるフック違いの版は、見せる前に道場へ trial として登録する（試す仮説と合格の予測を付ける）。
+- 本人の一言（良い／ボツ／ここが嫌）を道場に記録し、結果をこの一覧の該当する型の `results` にも足す。
+- My Portal につながらないエージェントは、`productions/<id>/results.md` に本人の評価を書いておく（後でつながるエージェントが道場へ移す）。
+
 ## 一覧に足すとき
 
 新しい型を見つけたら `catalog/hooks.json` に1件足す。
