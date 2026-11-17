@@ -29,6 +29,7 @@
 | `id` | ○ | 制作ID。フォルダ名と同じ | `"manga-posture-app"` |
 | `title` | ○ | 題名（人が読む用） | |
 | `hook` | ○ | 1コマ目で何が起きるか（脚本から） | |
+| `hook_type` | | フックの型（`catalog/hooks.json` の id） | |
 | `audience` | | 誰に向けたものか | |
 | `desire_scene` | | 欲求喚起シーン（脚本から） | |
 | `style` | | 絵の作風。`photo-manga`（写真漫画）/ `anime-manga`（モノクロ漫画）/ `color-webtoon`（カラー）/ 英語の自由記述 | `photo-manga` |
@@ -159,6 +160,7 @@ python3 tools/manga/manga.py all          productions/<id>/manga.json   # images
 | 項目 | 意味 |
 |---|---|
 | `id` | `h1`, `h2`, … |
+| `type` | フックの型（`catalog/hooks.json` の id）。`check` が一覧に無い id を警告する |
 | `idea` | どんなフックか（人が読む用。例: 見た目の差／題名で約束／結末を先に） |
 | `shots` | フックのカット（`shots[]` と同じ書き方）。合計2〜8秒。本編と同じ人物を使う |
 

@@ -128,6 +128,16 @@ def check(brief: dict) -> list[str]:
                 warns.append(f"{pid}: bubble '{t[:10]}…' is long ({len(t)} chars) — split it")
     if not brief.get("hook"):
         warns.append("no hook: the first panel must show the conflict without sound")
+    try:
+        sys.path.insert(0, str(ROOT / "tools"))
+        import hooks as HK
+        known = HK.ids()
+        if not brief.get("hook_type"):
+            warns.append("no hook_type: pick one from catalog/hooks.json (python3 tools/hooks.py for manga)")
+        elif brief["hook_type"] not in known:
+            warns.append(f"hook_type '{brief['hook_type']}' is not in catalog/hooks.json")
+    except Exception:  # noqa: BLE001
+        pass
     if not brief.get("teaser") and not brief.get("cta"):
         warns.append("no teaser/cta at the end")
     for w in warns:

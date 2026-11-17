@@ -2,6 +2,7 @@
   "id": "sample-manga-posture",
   "title": "同期が急に評判よくなった理由",
   "hook": "給湯室の女子2人が『最近の田中くん…』と主人公の同期を噂している。主人公は自分との差に気づく。",
+  "hook_type": "rumor",
   "audience": "猫背・疲れ顔を気にしている20〜30代の会社員",
   "desire_scene": "窓に映った自分の姿勢が、評判のいい同期と比べて情けなく見えた瞬間",
   "style": "photo-manga",

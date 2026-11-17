@@ -104,7 +104,17 @@ def check(b):
             errs.append(f"{s['id']}: needs 'motion' (what moves / is said in the clip)")
         if len(s.get("sub", "").replace("\n", "")) > 30:
             print(f"WARN {s['id']}: subtitle long — split the shot")
+    try:
+        sys.path.insert(0, str(ROOT / "tools"))
+        import hooks as HK
+        known = HK.ids()
+    except Exception:  # noqa: BLE001
+        known = None
     for h in b.get("hooks", []):
+        if known is not None and h.get("type") and h["type"] not in known:
+            print(f"WARN hook {h['id']}: type '{h['type']}' is not in catalog/hooks.json (add it there or fix the id)")
+        if known is not None and not h.get("type"):
+            print(f"WARN hook {h['id']}: no 'type' — pick one from catalog/hooks.json (python3 tools/hooks.py for drama)")
         secs = sum(x.get("seconds", 5) for x in h.get("shots", []))
         if secs > 8:
             print(f"WARN hook {h['id']}: {secs}s — a hook should be 2-8 s, then the story starts")

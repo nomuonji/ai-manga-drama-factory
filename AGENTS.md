@@ -10,11 +10,12 @@ Claude / Codex / ChatGPT / 人、誰が作っても同じ手順・同じ品質�
 1. `docs/playbook-manga.md` または `docs/playbook-drama.md` — 作り方の手順書（コマンド・確認項目・よくある失敗つき）。**ここから始める。**
 2. `docs/script-method.md` — 脚本の作り方。絵や動画を作る前に、ここで脚本を確定させる。
 3. `docs/cases/` — 実際に話題になった事例の1カットずつの分解。脚本を書く前に、近い型の事例を1つ以上読む。
-4. `docs/formats.md` — `manga.json` / `drama.json` の全項目、コマンド、費用。
-5. `docs/prompt-guide.md` — 絵と動きの指示（英語）の書き方。
-6. `docs/craft.md` — 作り手の暗黙知（見る順番、テンポの数字、AIの絵のくせ）。
-7. `docs/review.md` — 仕上がりの確認と報告の仕方。
-8. `docs/troubleshooting.md` — エラーが出たとき。
+4. `docs/hooks.md` と `catalog/hooks.json` — フックの型の一覧。冒頭はここから選び、新しい型を見つけたら足す。
+5. `docs/formats.md` — `manga.json` / `drama.json` の全項目、コマンド、費用。
+6. `docs/prompt-guide.md` — 絵と動きの指示（英語）の書き方。
+7. `docs/craft.md` — 作り手の暗黙知（見る順番、テンポの数字、AIの絵のくせ）。
+8. `docs/review.md` — 仕上がりの確認と報告の仕方。
+9. `docs/troubleshooting.md` — エラーが出たとき。
 
 ## 作業の流れ
 
@@ -51,6 +52,7 @@ Claude / Codex / ChatGPT / 人、誰が作っても同じ手順・同じ品質�
 
 | 何 | どこ |
 |---|---|
+| フックの型の一覧 | `catalog/hooks.json`（ツール `tools/hooks.py`、説明 `docs/hooks.md`） |
 | 成功事例・参考事例の分解 | `docs/cases/`（追加のルールは `docs/cases/README.md`） |
 | 脚本・設計書・結果 | `productions/<id>/script.md`, `manga.json` / `drama.json`, `results.md` |
 | 雛形 | `templates/` |

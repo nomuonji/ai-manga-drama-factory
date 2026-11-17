@@ -5,6 +5,7 @@
 
 - **はじめに読む手順書**: [漫画](docs/playbook-manga.md) / [ドラマ](docs/playbook-drama.md)
 - 脚本の作り方: [`docs/script-method.md`](docs/script-method.md)
+- フックの型の一覧: [`catalog/hooks.json`](catalog/hooks.json)（[使い方・増やし方](docs/hooks.md)、`python3 tools/hooks.py`）
 - 成功事例の分解: [`docs/cases/`](docs/cases/README.md)
 - 絵の指示の書き方: [`docs/prompt-guide.md`](docs/prompt-guide.md) / 作り手の暗黙知: [`docs/craft.md`](docs/craft.md) / 困ったとき: [`docs/troubleshooting.md`](docs/troubleshooting.md)
 - 設計書とツール: [`docs/formats.md`](docs/formats.md)
