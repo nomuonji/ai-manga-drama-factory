@@ -12,6 +12,7 @@ Usage
   python tools/manga/manga.py images  productions/<id>/manga.json   # needs GEMINI_API_KEY
   python tools/manga/manga.py voices  productions/<id>/manga.json   # needs VOICEVOX at $VOICEVOX_URL
   python tools/manga/manga.py render  productions/<id>/manga.json   # needs ffmpeg
+  python tools/manga/manga.py panels  productions/<id>/manga.json [dir]  # each panel + its bubbles as .webp (web pages)
   python tools/manga/manga.py all     productions/<id>/manga.json
   python tools/manga/manga.py placeholders productions/<id>/manga.json  # stand-in panels, no API
 
@@ -26,6 +27,7 @@ import hashlib
 import json
 import math
 import os
+import re
 import pathlib
 import subprocess
 import sys
@@ -126,6 +128,18 @@ def check(brief: dict) -> list[str]:
             t = b.get("text", "")
             if len(t.replace("\n", "")) > 28:
                 warns.append(f"{pid}: bubble '{t[:10]}…' is long ({len(t)} chars) — split it")
+    # forbid_words: things that must never be drawn (e.g. Free Consult: the product itself).
+    forbid = [w.lower() for w in brief.get("forbid_words", [])]
+    for pi, k, p, rect in panels(brief):
+        text = " ".join([p.get("prompt", ""), p.get("shot", "")]).lower()
+        for w in forbid:
+            if re.search(r"\b" + re.escape(w) + r"\b", text) if w.isascii() else w in text:
+                errs.append(f"{p.get('id')}: prompt mentions forbidden '{w}' (see forbid_words)")
+    if brief.get("client") == "free-consult":
+        if not brief.get("sales_page", "").startswith("https://consult.antonbase.com/products/"):
+            errs.append("free-consult brief needs sales_page = https://consult.antonbase.com/products/<id>/")
+        if not forbid:
+            errs.append("free-consult brief needs forbid_words (the product, its package, brand and logo)")
     if not brief.get("hook"):
         warns.append("no hook: the first panel must show the conflict without sound")
     try:
@@ -812,6 +826,37 @@ def inspect(brief: dict) -> int:
     return errs
 
 
+def export_panels(brief: dict, dest: str | None = None) -> list[pathlib.Path]:
+    """Save each panel, with its own bubbles/SFX, as a standalone image (for web pages).
+
+    Writes outputs/manga/<id>/panels/<panel id>.webp (or into `dest`). Text that sticks
+    out of its panel is cut off, so run `inspect` first and keep bubbles inside.
+    """
+    out = pathlib.Path(dest) if dest else pathlib.Path(brief["_out"]) / "panels"
+    out.mkdir(parents=True, exist_ok=True)
+    scale = brief.get("text_scale", 1.0)
+    saved = []
+    for pi, k, p, rect in panels(brief):
+        src = pathlib.Path(brief["_dir"]) / p["image"] if p.get("image") else panel_path(brief, p, rect)
+        if not src.exists():
+            sys.exit(f"panel {p['id']}: no image yet ({src}) — run images or placeholders first")
+        canvas = Image.new("RGBA", (W, H), (255, 255, 255, 255))
+        canvas.paste(fit_cover(Image.open(src).convert("RGB"), rect[2], rect[3], tuple(p.get("focus", (0.5, 0.4)))), rect[:2])
+        for kind, specs in (("bubble", p.get("bubbles", [])), ("sfx", p.get("sfx", []))):
+            for spec in specs:
+                x0, y0, x1, y1, moved, im = _placed_box(spec, kind, rect, scale)
+                canvas.alpha_composite(im, (x0, y0))
+                tb = _tight(im, (x0, y0, x1, y1))
+                if tb[0] < rect[0] or tb[1] < rect[1] or tb[2] > rect[0] + rect[2] or tb[3] > rect[1] + rect[3]:
+                    print(f"WARN {p['id']} {kind} '{spec['text'][:8]}': cut off at the panel edge in the export")
+        im = canvas.crop((rect[0], rect[1], rect[0] + rect[2], rect[1] + rect[3])).convert("RGB")
+        path = out / f"{p['id']}.webp"
+        im.save(path, "WEBP", quality=86)
+        saved.append(path)
+        print(f"saved {path} ({im.width}x{im.height})")
+    return saved
+
+
 # ---------------------------------------------------------------- main
 
 
@@ -821,7 +866,7 @@ def main():
         sys.exit(1)
     cmd, path = sys.argv[1], sys.argv[2]
     brief = load(path)
-    if check(brief) and cmd != "check":
+    if check(brief):
         sys.exit("fix the errors above first")
     if cmd == "check":
         tl = build_timeline(brief)
@@ -836,6 +881,8 @@ def main():
         gen_voices(brief)
     elif cmd == "render":
         render(brief)
+    elif cmd == "panels":
+        export_panels(brief, sys.argv[3] if len(sys.argv) > 3 else None)
     elif cmd == "all":
         gen_images(brief)
         gen_voices(brief)

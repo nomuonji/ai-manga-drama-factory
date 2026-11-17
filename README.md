@@ -28,3 +28,7 @@ python tools/manga/manga.py render       productions/sample-manga-posture/manga.
 
 GitHub Secrets に `GEMINI_API_KEY`（漫画・キーフレーム）と `FAL_KEY`（ドラマの動画化）を登録し、Build ワークフローを使う。
 費用の目安: 漫画1本 $0.3〜0.6、ドラマ30秒 $5〜10（`python tools/drama/drama.py cost …` で事前見積もり）。
+
+## Free Consult 向け
+
+商品セールスページ用の漫画（SNS予告動画と `/products/<id>/manga/` の漫画版）は `docs/playbook-free-consult.md`。雛形は `templates/free-consult-manga.json`。コマの書き出しは `python3 tools/manga/manga.py panels <brief> [dir]`。

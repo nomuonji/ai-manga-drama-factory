@@ -40,6 +40,9 @@
 | `pages` | ○ | ページの配列（下の表） | |
 | `teaser` | | 最後に出す帯の文字 | `"▼ このあと、大事件が… ▼"` |
 | `teaser_seconds` | | 帯を出しておく秒数 | 2.0 |
+| `forbid_words` | | 絵に入れてはいけない物の語（prompt/shot に含まれると `check` がエラー） | `["bottle","logo"]` |
+| `client` | | 依頼元。`"free-consult"` なら `sales_page` と `forbid_words` が必須 | `"free-consult"` |
+| `sales_page` | | 誘導先のセールスページ URL | `"https://consult.antonbase.com/products/hair-care/"` |
 | `bgm` / `bgm_volume` | | BGM のファイル（`assets/music/`）と音量 | 0.12 |
 | `sfx_sounds` | | 効果音の名前 → ファイル | `{"don": "assets/sfx/don.ogg"}` |
 | `text_scale` | | 吹き出し・効果音の文字を全体に大きく／小さく | 1.0 |

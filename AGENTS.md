@@ -8,6 +8,7 @@ Claude / Codex / ChatGPT / 人、誰が作っても同じ手順・同じ品質�
 動画づくりに慣れていなくても、この順に読んで手順書どおりに1ステップずつ進めれば作れるように書いてある。**手順を飛ばさない。ゲート（確認項目）を満たすまで次へ進まない。**
 
 1. `docs/playbook-manga.md` または `docs/playbook-drama.md` — 作り方の手順書（コマンド・確認項目・よくある失敗つき）。**ここから始める。**
+   - Free Consult（consult.antonbase.com）の商品向けなら、続けて `docs/playbook-free-consult.md`（商品を描かない・SNS予告とセールスページ漫画版）。
 2. `docs/script-method.md` — 脚本の作り方。絵や動画を作る前に、ここで脚本を確定させる。
 3. `docs/cases/` — 実際に話題になった事例の1カットずつの分解。脚本を書く前に、近い型の事例を1つ以上読む。
 4. `docs/hooks.md` と `catalog/hooks.json` — フックの型の一覧。冒頭はここから選び、新しい型を見つけたら足す。
