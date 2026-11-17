@@ -17,6 +17,11 @@ Claude / Codex / ChatGPT / 人、誰が作っても同じ手順・同じ品質�
 8. `docs/review.md` — 仕上がりの確認と報告の仕方。
 9. `docs/troubleshooting.md` — エラーが出たとき。
 
+## もう一つの作り方: ガチャ工場（`docs/gacha.md`）
+
+「なんかわけのわからない動画作って」のように、中身を決めずに面白い動画がほしいときは、脚本を書かずに `tools/gacha/gacha.py` を使う。
+エージェントは中身を考えず、動画AIに型だけ渡して何本も作らせ、人に選んでもらい、当たりやすい条件を記録する。
+
 ## 作業の流れ
 
 ```
@@ -52,6 +57,7 @@ Claude / Codex / ChatGPT / 人、誰が作っても同じ手順・同じ品質�
 
 | 何 | どこ |
 |---|---|
+| ガチャ工場の型・評価 | `catalog/gacha-formats.json`、`gacha/<batch>/batch.json`、`gacha/ratings.jsonl` |
 | フックの型の一覧 | `catalog/hooks.json`（ツール `tools/hooks.py`、説明 `docs/hooks.md`） |
 | 成功事例・参考事例の分解 | `docs/cases/`（追加のルールは `docs/cases/README.md`） |
 | 脚本・設計書・結果 | `productions/<id>/script.md`, `manga.json` / `drama.json`, `results.md` |

@@ -1,0 +1,55 @@
+name: Gacha (text-to-video)
+
+# 有料。手動実行のみ。plan → run → review を1回で行い、batch.json をブランチに保存、動画と一覧ページを artifact にする。
+on:
+  workflow_dispatch:
+    inputs:
+      n:
+        description: "何本作るか"
+        default: "8"
+      budget:
+        description: "上限（ドル）"
+        default: "15"
+      models:
+        description: "sora-2,seedance-2-fast,seedance-2,veo-3.1-fast から"
+        default: "sora-2,seedance-2-fast"
+      seconds:
+        default: "12"
+      aspect:
+        default: "9:16"
+
+permissions:
+  contents: write
+
+jobs:
+  gacha:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -q faster-whisper
+      - name: Plan
+        id: plan
+        run: |
+          python tools/gacha/gacha.py plan --n "${{ inputs.n }}" --budget "${{ inputs.budget }}" --models "${{ inputs.models }}" --seconds "${{ inputs.seconds }}" --aspect "${{ inputs.aspect }}" | tee plan.txt
+          echo "id=$(ls -1 gacha | grep -E '^[0-9]{8}-[0-9]{4}$' | sort | tail -1)" >> "$GITHUB_OUTPUT"
+      - name: Generate
+        env:
+          FAL_KEY: ${{ secrets.FAL_KEY }}
+        run: python tools/gacha/gacha.py run "${{ steps.plan.outputs.id }}"
+      - name: Review pack
+        run: python tools/gacha/gacha.py review "${{ steps.plan.outputs.id }}"
+      - name: Save batch.json to the branch
+        run: |
+          git config user.name "github-actions" && git config user.email "actions@github.com"
+          git add gacha/ && git commit -m "gacha batch ${{ steps.plan.outputs.id }}" && git push || echo "nothing to commit"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gacha-${{ steps.plan.outputs.id }}
+          path: outputs/gacha/

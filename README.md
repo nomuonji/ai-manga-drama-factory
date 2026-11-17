@@ -12,6 +12,8 @@
 - 確認: [`docs/review.md`](docs/review.md)
 - エージェント向け: [`AGENTS.md`](AGENTS.md)
 
+もう一つ、中身を決めずに動画AIに何本も作らせて当たりを選ぶ **ガチャ工場**（[`docs/gacha.md`](docs/gacha.md)）もある。
+
 ## すぐ試す（APIキー不要）
 
 ```bash
