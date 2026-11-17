@@ -1,0 +1,69 @@
+{
+  "id": "manga-sample-posture",
+  "title": "同期が急に評判よくなった理由",
+  "hook": "給湯室の女子2人が『最近の田中くん…』と主人公の同期を噂している。主人公は自分との差に気づく。",
+  "audience": "猫背・疲れ顔を気にしている20〜30代の会社員",
+  "desire_scene": "窓に映った自分の姿勢が、評判のいい同期と比べて情けなく見えた瞬間",
+  "style": "photo-manga",
+  "setting": "a modern Tokyo office, evening, warm indoor light",
+  "characters": [
+    {"id": "sato", "name": "佐藤", "look": "Japanese man, 28, short black hair slightly messy, tired eyes, navy suit, loosened tie, slouching posture",
+     "voice": {"speaker": "青山龍星", "style": "ノーマル", "speed": 1.15}},
+    {"id": "tanaka", "name": "田中", "look": "Japanese man, 28, neat short hair, upright confident posture, light grey suit, white shirt, friendly smile",
+     "voice": {"speaker": "剣崎雌雄", "style": "ノーマル", "speed": 1.12}},
+    {"id": "mika", "name": "美香", "look": "Japanese woman, 26, shoulder-length brown hair, beige cardigan, office lanyard",
+     "voice": {"speaker": "冥鳴ひまり", "style": "ノーマル", "speed": 1.15}},
+    {"id": "yui", "name": "結衣", "look": "Japanese woman, 25, long black hair in a low ponytail, white blouse, office lanyard",
+     "voice": {"speaker": "春日部つむぎ", "style": "ノーマル", "speed": 1.15}}
+  ],
+  "narrator": {"speaker": "青山龍星", "style": "ノーマル", "speed": 1.12},
+  "bgm": "assets/music/safe-space-loop.ogg",
+  "bgm_volume": 0.10,
+  "sfx_sounds": {"don": "assets/sfx/don.ogg"},
+  "pages": [
+    {"rows": [
+      {"layout": "full", "height": 1.15, "panels": [
+        {"id": "p1", "cast": ["mika", "yui"], "shot": "medium two-shot, eye level",
+         "prompt": "two female office workers in a break room, covering their mouths and giggling while glancing at someone off-screen to the right",
+         "bubbles": [
+           {"speaker": "mika", "text": "最近の\n田中くん…", "at": [0.16, 0.36], "tail": "down"},
+           {"speaker": "yui", "text": "なんか\n違うよね", "at": [0.86, 0.36], "tail": "down"}
+         ],
+         "sfx": [{"text": "ヒソヒソ", "at": [0.5, 0.15], "size": 70, "rotate": -6}]}
+      ]},
+      {"layout": "split", "height": 1.0, "panels": [
+        {"id": "p2", "cast": ["sato"], "shot": "close-up, slightly from below",
+         "prompt": "the tired man holding a paper coffee cup in the break room doorway, overhearing, surprised eyes",
+         "bubbles": [{"speaker": "sato", "kind": "thought", "text": "え、\n田中が…？", "at": [0.25, 0.3], "tail": "down"}]},
+        {"id": "p3", "cast": ["tanaka"], "shot": "medium shot",
+         "prompt": "the confident man standing very upright at his desk, laughing naturally while talking with colleagues",
+         "bubbles": [{"speaker": "tanaka", "text": "それ\nいいね！", "at": [0.78, 0.28], "tail": "down"}]}
+      ]},
+      {"layout": "full", "height": 1.2, "panels": [
+        {"id": "p4", "cast": ["sato"], "shot": "over-the-shoulder, his reflection in a dark night window", "shake": true,
+         "prompt": "the tired man sees his own reflection in the dark office window: hunched back, rounded shoulders, exhausted face; dramatic contrast lighting",
+         "bubbles": [{"speaker": "sato", "kind": "thought", "text": "俺って…\nこんな姿勢\nだったのか", "at": [0.2, 0.35], "tail": "right"}],
+         "sfx": [{"text": "ガーン", "at": [0.78, 0.2], "size": 120, "rotate": 8, "pulse": true, "sound": "don"}]}
+      ]}
+    ]},
+    {"rows": [
+      {"layout": "split-wide-left", "height": 1.0, "panels": [
+        {"id": "p5", "cast": ["sato", "tanaka"], "shot": "medium two-shot at the office elevator",
+         "prompt": "the tired man catches up with the confident man at the elevator hall and asks him something earnestly",
+         "bubbles": [{"speaker": "sato", "text": "なあ、\n最近\n何かしてる？", "at": [0.2, 0.33], "tail": "down"}]},
+        {"id": "p6", "cast": ["tanaka"], "shot": "close-up",
+         "prompt": "the confident man smiles a little mischievously, as if about to tell a secret",
+         "bubbles": [{"speaker": "tanaka", "text": "実は\nさ…", "at": [0.5, 0.3], "tail": "down"}]}
+      ]},
+      {"layout": "full", "height": 1.3, "panels": [
+        {"id": "p7", "cast": ["tanaka", "sato"], "shot": "medium shot, the phone screen is not readable",
+         "prompt": "the confident man shows the tired man a smartphone; the tired man leans in, eyes wide with interest",
+         "bubbles": [
+           {"speaker": "tanaka", "text": "毎朝\n3分だけ\nこれ", "at": [0.18, 0.32], "tail": "down"},
+           {"speaker": "sato", "kind": "shout", "text": "3分！？", "at": [0.82, 0.3], "size": 46, "tail": "none"}
+         ]}
+      ]}
+    ]}
+  ],
+  "teaser": "▼ 田中の3分の正体は… ▼"
+}

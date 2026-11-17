@@ -1,0 +1,103 @@
+name: Build
+
+# Manga: commit productions/<id>/manga.json in a PR -> panels (Gemini) + voices (VOICEVOX) + video. ~$0.3–0.6 per video.
+# Drama: run manually (paid video model). step=keyframes first, look at them, then step=clips, then step=assemble.
+
+on:
+  pull_request:
+    paths:
+      - "productions/*/manga.json"
+  workflow_dispatch:
+    inputs:
+      production:
+        description: "production id (folder under productions/)"
+        required: true
+      kind:
+        description: "manga or drama"
+        required: true
+        default: manga
+        type: choice
+        options: [manga, drama]
+      step:
+        description: "manga: all | images | render   drama: keyframes | stills | clips | assemble"
+        required: true
+        default: all
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ai-manga-drama-${{ github.ref }}-${{ inputs.production }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Tools
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-cjk
+          pip install -q pillow numpy
+      - name: Which productions
+        id: which
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "list=${{ inputs.production }}" >> "$GITHUB_OUTPUT"
+            echo "kind=${{ inputs.kind }}" >> "$GITHUB_OUTPUT"
+            echo "step=${{ inputs.step }}" >> "$GITHUB_OUTPUT"
+          else
+            git fetch -q origin "${{ github.base_ref }}" --depth=1
+            ids=$(git diff --name-only "origin/${{ github.base_ref }}" HEAD -- 'productions/*/manga.json' | cut -d/ -f2 | sort -u | tr '\n' ' ')
+            echo "list=$ids" >> "$GITHUB_OUTPUT"
+            echo "kind=manga" >> "$GITHUB_OUTPUT"
+            echo "step=all" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Restore generated images / clips (so re-runs do not pay twice)
+        uses: actions/cache@v4
+        with:
+          path: outputs
+          key: amdf-${{ steps.which.outputs.kind }}-${{ steps.which.outputs.list }}-${{ github.run_id }}
+          restore-keys: |
+            amdf-${{ steps.which.outputs.kind }}-${{ steps.which.outputs.list }}-
+      - name: Start VOICEVOX engine
+        if: steps.which.outputs.step != 'images' && steps.which.outputs.step != 'keyframes' && steps.which.outputs.step != 'clips'
+        run: |
+          docker run -d --rm --name vv -p 127.0.0.1:50021:50021 voicevox/voicevox_engine:cpu-latest
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:50021/version && break; sleep 3; done
+      - name: Build
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          FAL_KEY: ${{ secrets.FAL_KEY }}
+          VOICEVOX_URL: http://127.0.0.1:50021
+        run: |
+          for id in ${{ steps.which.outputs.list }}; do
+            if [ "${{ steps.which.outputs.kind }}" = "manga" ]; then
+              python tools/manga/manga.py ${{ steps.which.outputs.step }} "productions/$id/manga.json"
+            else
+              step="${{ steps.which.outputs.step }}"
+              [ "$step" = "assemble" ] && python tools/drama/drama.py voices "productions/$id/drama.json"
+              python tools/drama/drama.py "$step" "productions/$id/drama.json"
+            fi
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ai-${{ steps.which.outputs.kind }}-${{ github.run_number }}
+          path: |
+            outputs/manga/**/video.mp4
+            outputs/manga/**/contact-sheet.jpg
+            outputs/manga/**/first-frame-phone.png
+            outputs/manga/**/characters/*.png
+            outputs/manga/**/panels/*.png
+            outputs/drama/**/video.mp4
+            outputs/drama/**/preview-stills.mp4
+            outputs/drama/**/characters/*.png
+            outputs/drama/**/keyframes/*.png
+          if-no-files-found: warn
