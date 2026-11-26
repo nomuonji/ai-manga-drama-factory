@@ -11,6 +11,13 @@
 - **別素材のフック**: 本編の前に付ける、物語の外の2〜8秒（参考のAIドラマ広告の冒頭8秒）。差し替えやすい。ドラマは `drama.json` の `hooks`。
 - **本編1カット目＝フック**: 物語がそのまま強い瞬間から始まる。漫画は1コマ目、ドラマは1カット目。
 
+## 交換可能な接続型フック（2026-11-26）
+本編を先に固定し、冒頭の短い視覚素材だけを交換する。物語全体の企画とは別。 `catalog/hooks.json` の `scope=modular-opener` を選ぶ。 `adaptable` は接続設計が必要、`body-dependent` は本筋に依存、`outro-teaser` は終端用途。
+各型の `modular` には差替変数、短い局所回収、出口フレーム、接続、本編との契約、再利用テストを収録。1〜4秒は目安。冒頭の人物・場所が本編と違っても、動作・形・遮蔽・音・題名等で接続し、主題を誤認させない。元動画の転載ではなく自作・許諾済み素材で再現する。
+本編2種に同じ素材（字幕や出口の差替は可）を接続する設計検証を行い、直接本編から始める対照も残す。視聴選択と接続直後の維持を別々に計測。冒頭で引き付けても接続で離脱するなら失敗。既存の observed 型を含む比較条件は維持する。
+今回の12型は第三者の事例解説・制作ガイドから抽出した guidance 候補であり、原動画全編の検証・本人合格・市場実績は未確認。原典・秒数・出口・本編入口・反例が直接確認できたら事例を追記する。
+研究源: [Tweenery](https://tweenery.com/tools/video-hooks)、[Nabit](https://nabit.ai/ads)、[Viral Hooks](https://viralhooks.org/database/41140-creative-transition-for-product-promo/)、[Savannah Sanchez](https://runneth.com/library/talk/the-30-ad-formats-every-top-brand-is-stealing-in-2025/)、[Content Department](https://contentdept.com.au/resources/social-media-hooks/)、[TikTok Creative Codes](https://ads.tiktok.com/business/en-US/creative-codes)。
+
 ## 選び方
 
 ```bash
