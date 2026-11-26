@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "updated": "2026-11-18",
+  "version": 2,
+  "updated": "2026-11-26",
   "about": "フック（冒頭の2〜8秒、または本編の前に付ける別素材）の型の一覧。脚本の第3.5節と script.md の『フック』欄はここから選ぶ。追加・評価のルールは docs/hooks.md。",
   "evidence_levels": {
     "observed": "このリポジトリで実際の動画を分解して確認した（docs/cases/）",
@@ -312,6 +312,76 @@
       "sources": [
         "docs/cases/20261117-ai-cm-unaimed.md",
         "https://x.com/AI_Illust_000/status/2122681990638187006"
+      ]
+    },
+    {
+      "id": "visual-context-violation",
+      "name": "日常の画に一つの異常",
+      "mechanism": "日常の行為・物体と、それが成立しない場所・尺度・条件を同じ画に置き、観客が矛盾を認識して理由や次の変化を知りたくなるという仮説。",
+      "first_frame": "普通の車内で傘を閉じる人物と、雨の窓に対して天井だけ晴天になっている境界が同時に見える。",
+      "text_example": "（文字なし診断版で矛盾が読めること）",
+      "best_for": [
+        "AI映像",
+        "架空世界",
+        "物理・社会の常識を覆す企画"
+      ],
+      "formats": [
+        "manga",
+        "drama"
+      ],
+      "placement": "本編1カット目、または本編の対立を実演する別素材",
+      "avoid": "異常の多重化・生成破綻・小さい異常・無関係な奇抜さ。視線研究は初期捕捉を保証しない。",
+      "evidence": "hypothesis",
+      "sources": [
+        "https://pubmed.ncbi.nlm.nih.gov/35171232/",
+        "https://pubmed.ncbi.nlm.nih.gov/21607814/",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC2782645/"
+      ]
+    },
+    {
+      "id": "spatial-anticipation",
+      "name": "空間の関係で次の動きを予感させる",
+      "mechanism": "境界・支点・奥行き・相対運動・接近経路から、次に起きる出来事を観客が身体感覚で予測するという仮説。",
+      "first_frame": "架空ミニチュア街の間を進む大きなゴムボールと、その進路上の目印が一目で見える。",
+      "text_example": "（動きと環境音を主役にする）",
+      "best_for": [
+        "CG・3D",
+        "実験・構造・スケール",
+        "安全な視覚トリック"
+      ],
+      "formats": [
+        "drama",
+        "manga"
+      ],
+      "placement": "冒頭から予兆、次のビートで進路・尺度・状態を変化させ回収",
+      "avoid": "実際の危険行為、傷害を見世物にする、無関係な偽の危機、急ズームや手ぶれだけで代用する。",
+      "evidence": "hypothesis",
+      "sources": [
+        "https://pubmed.ncbi.nlm.nih.gov/18727784/",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC2782645/"
+      ]
+    },
+    {
+      "id": "unbothered-in-absurdity",
+      "name": "異常を気にしない当事者",
+      "mechanism": "観客が異変に気づいているのに主役は平然と日常行為を続ける。認識や感情の差と安全な虚構の文脈が笑いや先への興味を生むという仮説。",
+      "first_frame": "架空の巨大生物の影が洗濯物を覆うが、主役は手元の洗濯ばさみをいつも通り留めている。",
+      "text_example": "（ボケを説明しない）",
+      "best_for": [
+        "シュールコメディ",
+        "キャラクター動画",
+        "日常と異世界の接続"
+      ],
+      "formats": [
+        "drama",
+        "manga"
+      ],
+      "placement": "冒頭から主役の行為と異変を同時に提示、本編で両者の関係を回収",
+      "avoid": "本当の事故・被害、過剰なリアクション、場面とキャラに必然性のない異常。S-097は静止画のみなので成功を断定しない。",
+      "evidence": "hypothesis",
+      "sources": [
+        "https://pubmed.ncbi.nlm.nih.gov/22941877/",
+        "https://pubmed.ncbi.nlm.nih.gov/20587696/"
       ]
     }
   ]
