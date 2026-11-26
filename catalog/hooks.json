@@ -1,7 +1,7 @@
 {
-  "version": 2,
+  "version": 3,
   "updated": "2026-11-26",
-  "about": "フック（冒頭の2〜8秒、または本編の前に付ける別素材）の型の一覧。脚本の第3.5節と script.md の『フック』欄はここから選ぶ。追加・評価のルールは docs/hooks.md。",
+  "about": "フック（冒頭の2〜8秒、または本編の前に付ける別素材）の型の一覧。脚本の第3.5節と script.md の『フック』欄はここから選ぶ。追加・評価のルールは docs/hooks.md。 scope=modular-opener は本編を固定した交換可能素材の候補。adaptable は要接続設計。body-dependent は本筋に依存する型。outro-teaser は終端。modular の局所回収・出口・接続・再利用検証を参照。guidanceは第三者の事例解説/制作ガイドの根拠で、独立検証ではない。",
   "evidence_levels": {
     "observed": "このリポジトリで実際の動画を分解して確認した（docs/cases/）",
     "guidance": "媒体の公式ガイドや業界記事に書かれている型。自分たちの動画ではまだ確かめていない",
@@ -27,7 +27,8 @@
       "evidence": "observed",
       "sources": [
         "docs/cases/20261117-ai-drama-fat-freezing-clinic.md"
-      ]
+      ],
+      "scope": "adaptable"
     },
     {
       "id": "title-promise",
@@ -47,7 +48,8 @@
       "evidence": "observed",
       "sources": [
         "docs/cases/20261117-ai-drama-fat-freezing-clinic.md"
-      ]
+      ],
+      "scope": "adaptable"
     },
     {
       "id": "being-watched",
@@ -67,7 +69,8 @@
       "evidence": "observed",
       "sources": [
         "docs/cases/20261014-ai-manga-hair-teaser.md"
-      ]
+      ],
+      "scope": "body-dependent"
     },
     {
       "id": "cliffhanger-bar",
@@ -87,7 +90,8 @@
       "sources": [
         "docs/cases/20261014-ai-manga-hair-teaser.md",
         "https://x.com/k_4415/status/2110295653213671859"
-      ]
+      ],
+      "scope": "outro-teaser"
     },
     {
       "id": "overheard",
@@ -108,7 +112,8 @@
       "evidence": "observed",
       "sources": [
         "docs/cases/20261117-ai-drama-fat-freezing-clinic.md"
-      ]
+      ],
+      "scope": "body-dependent"
     },
     {
       "id": "frozen-moment",
@@ -128,7 +133,8 @@
       "evidence": "hypothesis",
       "sources": [
         "productions/sample-drama-english"
-      ]
+      ],
+      "scope": "body-dependent"
     },
     {
       "id": "result-first",
@@ -148,7 +154,8 @@
       "evidence": "guidance",
       "sources": [
         "https://0120.co.jp/blog/video-13/"
-      ]
+      ],
+      "scope": "adaptable"
     },
     {
       "id": "question",
@@ -169,7 +176,8 @@
       "sources": [
         "https://0120.co.jp/blog/video-13/",
         "https://www.imagine.art/blogs/tiktok-ad-hooks"
-      ]
+      ],
+      "scope": "body-dependent"
     },
     {
       "id": "problem-first",
@@ -190,7 +198,8 @@
       "sources": [
         "https://www.imagine.art/blogs/tiktok-ad-hooks",
         "https://0120.co.jp/blog/video-103/?service=video"
-      ]
+      ],
+      "scope": "body-dependent"
     },
     {
       "id": "pov",
@@ -210,7 +219,8 @@
       "evidence": "guidance",
       "sources": [
         "https://www.imagine.art/blogs/tiktok-ad-hooks"
-      ]
+      ],
+      "scope": "body-dependent"
     },
     {
       "id": "curiosity-reveal",
@@ -230,7 +240,8 @@
       "evidence": "guidance",
       "sources": [
         "https://www.imagine.art/blogs/tiktok-ad-hooks"
-      ]
+      ],
+      "scope": "adaptable"
     },
     {
       "id": "demo-first",
@@ -249,7 +260,8 @@
       "evidence": "guidance",
       "sources": [
         "https://www.imagine.art/blogs/tiktok-ad-hooks"
-      ]
+      ],
+      "scope": "adaptable"
     },
     {
       "id": "bold-claim",
@@ -270,7 +282,8 @@
       "sources": [
         "https://www.stackmatix.com/blog/tiktok-ad-creative-best-practices-2026",
         "https://www.imagine.art/blogs/tiktok-ad-hooks"
-      ]
+      ],
+      "scope": "body-dependent"
     },
     {
       "id": "rumor",
@@ -291,7 +304,8 @@
       "evidence": "hypothesis",
       "sources": [
         "productions/sample-manga-posture"
-      ]
+      ],
+      "scope": "body-dependent"
     },
     {
       "id": "format-parody",
@@ -312,7 +326,8 @@
       "sources": [
         "docs/cases/20261117-ai-cm-unaimed.md",
         "https://x.com/AI_Illust_000/status/2122681990638187006"
-      ]
+      ],
+      "scope": "body-dependent"
     },
     {
       "id": "visual-context-violation",
@@ -336,7 +351,8 @@
         "https://pubmed.ncbi.nlm.nih.gov/35171232/",
         "https://pubmed.ncbi.nlm.nih.gov/21607814/",
         "https://pmc.ncbi.nlm.nih.gov/articles/PMC2782645/"
-      ]
+      ],
+      "scope": "adaptable"
     },
     {
       "id": "spatial-anticipation",
@@ -359,7 +375,8 @@
       "sources": [
         "https://pubmed.ncbi.nlm.nih.gov/18727784/",
         "https://pmc.ncbi.nlm.nih.gov/articles/PMC2782645/"
-      ]
+      ],
+      "scope": "adaptable"
     },
     {
       "id": "unbothered-in-absurdity",
@@ -382,7 +399,443 @@
       "sources": [
         "https://pubmed.ncbi.nlm.nih.gov/22941877/",
         "https://pubmed.ncbi.nlm.nih.gov/20587696/"
-      ]
+      ],
+      "scope": "adaptable"
+    },
+    {
+      "id": "kinetic-handoff",
+      "name": "動作リレー",
+      "mechanism": "物体の移動を別ショットで受け継ぎ、注意を本編へ運ぶ",
+      "first_frame": "色のついた柔らかい球が横から飛び込む",
+      "text_example": "（任意。本編の題名・主張だけを差し替える）",
+      "best_for": [
+        "解説",
+        "物語",
+        "商品紹介",
+        "AI動画・CG"
+      ],
+      "formats": [
+        "manga",
+        "drama"
+      ],
+      "placement": "本編と独立した冒頭素材、目安1〜4秒。直後に本編へ接続",
+      "avoid": "安全な軽い物体で撮る。実際の落下や事故を利用しない",
+      "evidence": "guidance",
+      "sources": [
+        "https://viralhooks.org/database/41140-creative-transition-for-product-promo/",
+        "https://contentdept.com.au/resources/social-media-hooks/"
+      ],
+      "modular": {
+        "status": "candidate",
+        "evidence_scope": "事例解説・公開制作ガイド由来。原動画全編・性能未検証",
+        "duration_hint": "1–4s",
+        "slots": "小道具・方向・受け手",
+        "local_payoff": "受け取る手で動作を完了",
+        "exit": "手・球の軌道と画面位置を一致",
+        "bridge": "同じ手が本編の道具を置く",
+        "reuse_test": "独立した本編2種類で同じ素材を使い、字幕・出口だけで接続できるか",
+        "body_contract": "本編を先に固定。短い報酬を冒頭内で回収し、接続後の内容を偽らない"
+      },
+      "scope": "modular-opener"
+    },
+    {
+      "id": "occlusion-handoff",
+      "name": "遮蔽物ワイプ",
+      "mechanism": "画面が一瞬覆われることで別空間への切替を自然にする",
+      "first_frame": "布やカードがレンズに向かってくる",
+      "text_example": "（任意。本編の題名・主張だけを差し替える）",
+      "best_for": [
+        "解説",
+        "物語",
+        "商品紹介",
+        "AI動画・CG"
+      ],
+      "formats": [
+        "manga",
+        "drama"
+      ],
+      "placement": "本編と独立した冒頭素材、目安1〜4秒。直後に本編へ接続",
+      "avoid": "つなぎだけの派手さではなく入口の対象が明瞭であること",
+      "evidence": "guidance",
+      "sources": [
+        "https://contentdept.com.au/resources/social-media-hooks/",
+        "https://viralhooks.org/database/10963-funny-skit-transitions-to-product-reveal/",
+        "https://nabit.ai/ads"
+      ],
+      "modular": {
+        "status": "candidate",
+        "evidence_scope": "事例解説・公開制作ガイド由来。原動画全編・性能未検証",
+        "duration_hint": "1–4s",
+        "slots": "遮蔽物・色・移動方向",
+        "local_payoff": "画面を覆い、次のショットで除く",
+        "exit": "全面遮蔽フレーム",
+        "bridge": "本編の人物・物体が現れる",
+        "reuse_test": "独立した本編2種類で同じ素材を使い、字幕・出口だけで接続できるか",
+        "body_contract": "本編を先に固定。短い報酬を冒頭内で回収し、接続後の内容を偽らない"
+      },
+      "scope": "modular-opener"
+    },
+    {
+      "id": "shape-match-portal",
+      "name": "形のマッチカット",
+      "mechanism": "同じ輪郭が別物へ変わり、視線の位置を保つ",
+      "first_frame": "円や四角の物体を画面中央に置く",
+      "text_example": "（任意。本編の題名・主張だけを差し替える）",
+      "best_for": [
+        "解説",
+        "物語",
+        "商品紹介",
+        "AI動画・CG"
+      ],
+      "formats": [
+        "manga",
+        "drama"
+      ],
+      "placement": "本編と独立した冒頭素材、目安1〜4秒。直後に本編へ接続",
+      "avoid": "単なる形状類似で意味が消える場合は不採用",
+      "evidence": "guidance",
+      "sources": [
+        "https://nabit.ai/ads",
+        "https://runneth.com/library/talk/the-30-ad-formats-every-top-brand-is-stealing-in-2025/"
+      ],
+      "modular": {
+        "status": "candidate",
+        "evidence_scope": "事例解説・公開制作ガイド由来。原動画全編・性能未検証",
+        "duration_hint": "1–4s",
+        "slots": "形・材質・ズーム率",
+        "local_payoff": "輪郭の一致で本編対象へ置換",
+        "exit": "輪郭・位置・回転の一致",
+        "bridge": "同じ形をした図解・製品・画面へ",
+        "reuse_test": "独立した本編2種類で同じ素材を使い、字幕・出口だけで接続できるか",
+        "body_contract": "本編を先に固定。短い報酬を冒頭内で回収し、接続後の内容を偽らない"
+      },
+      "scope": "modular-opener"
+    },
+    {
+      "id": "precision-fit",
+      "name": "ぴったり収まる瞬間",
+      "mechanism": "配置の誤差が消える瞬間を見届けたくなる",
+      "first_frame": "溝と一つだけずれた部品",
+      "text_example": "（任意。本編の題名・主張だけを差し替える）",
+      "best_for": [
+        "解説",
+        "物語",
+        "商品紹介",
+        "AI動画・CG"
+      ],
+      "formats": [
+        "manga",
+        "drama"
+      ],
+      "placement": "本編と独立した冒頭素材、目安1〜4秒。直後に本編へ接続",
+      "avoid": "無関係なASMRを長く続けない",
+      "evidence": "guidance",
+      "sources": [
+        "https://tweenery.com/tools/video-hooks",
+        "https://contentdept.com.au/resources/social-media-hooks/"
+      ],
+      "modular": {
+        "status": "candidate",
+        "evidence_scope": "事例解説・公開制作ガイド由来。原動画全編・性能未検証",
+        "duration_hint": "1–4s",
+        "slots": "部品・穴・色・形・出口文字",
+        "local_payoff": "部品が整列しカチッと収まる",
+        "exit": "完成配置・短いクリック音",
+        "bridge": "同じ整列で見出しや図解が始まる",
+        "reuse_test": "独立した本編2種類で同じ素材を使い、字幕・出口だけで接続できるか",
+        "body_contract": "本編を先に固定。短い報酬を冒頭内で回収し、接続後の内容を偽らない"
+      },
+      "scope": "modular-opener"
+    },
+    {
+      "id": "material-reveal",
+      "name": "素材の変化で開示",
+      "mechanism": "質感が変化する過程そのものを視覚報酬にする",
+      "first_frame": "薄い紙・粘土・砂などが画面を占める",
+      "text_example": "（任意。本編の題名・主張だけを差し替える）",
+      "best_for": [
+        "解説",
+        "物語",
+        "商品紹介",
+        "AI動画・CG"
+      ],
+      "formats": [
+        "manga",
+        "drama"
+      ],
+      "placement": "本編と独立した冒頭素材、目安1〜4秒。直後に本編へ接続",
+      "avoid": "変化を見せずCGノイズでごまかさない",
+      "evidence": "guidance",
+      "sources": [
+        "https://tweenery.com/tools/video-hooks",
+        "https://nabit.ai/ads",
+        "https://runneth.com/library/talk/the-30-ad-formats-every-top-brand-is-stealing-in-2025/"
+      ],
+      "modular": {
+        "status": "candidate",
+        "evidence_scope": "事例解説・公開制作ガイド由来。原動画全編・性能未検証",
+        "duration_hint": "1–4s",
+        "slots": "素材・操作・隠し面・文字",
+        "local_payoff": "めくる・ならす・開くことで下の色面や情報が出る",
+        "exit": "平面の完成・文字の露出",
+        "bridge": "見出しから本編映像へ",
+        "reuse_test": "独立した本編2種類で同じ素材を使い、字幕・出口だけで接続できるか",
+        "body_contract": "本編を先に固定。短い報酬を冒頭内で回収し、接続後の内容を偽らない"
+      },
+      "scope": "modular-opener"
+    },
+    {
+      "id": "scale-reframe",
+      "name": "尺度の再認識",
+      "mechanism": "カメラ移動で最初の認識が別物に変わる",
+      "first_frame": "抽象的に見える実物の接写",
+      "text_example": "（任意。本編の題名・主張だけを差し替える）",
+      "best_for": [
+        "解説",
+        "物語",
+        "商品紹介",
+        "AI動画・CG"
+      ],
+      "formats": [
+        "manga",
+        "drama"
+      ],
+      "placement": "本編と独立した冒頭素材、目安1〜4秒。直後に本編へ接続",
+      "avoid": "正体を本編まで隠し続けない",
+      "evidence": "guidance",
+      "sources": [
+        "https://nabit.ai/ads",
+        "https://tweenery.com/tools/video-hooks"
+      ],
+      "modular": {
+        "status": "candidate",
+        "evidence_scope": "事例解説・公開制作ガイド由来。原動画全編・性能未検証",
+        "duration_hint": "1–4s",
+        "slots": "実物・倍率・移動速度",
+        "local_payoff": "引きで物体の正体を明示",
+        "exit": "正体が読める安定フレーム",
+        "bridge": "その輪郭や色を本編へ接続",
+        "reuse_test": "独立した本編2種類で同じ素材を使い、字幕・出口だけで接続できるか",
+        "body_contract": "本編を先に固定。短い報酬を冒頭内で回収し、接続後の内容を偽らない"
+      },
+      "scope": "modular-opener"
+    },
+    {
+      "id": "object-pov-exit",
+      "name": "物体内部からの視点",
+      "mechanism": "馴染みのある動作を普段見ない位置から見せる",
+      "first_frame": "箱・引き出し・容器の内側から外を見る",
+      "text_example": "（任意。本編の題名・主張だけを差し替える）",
+      "best_for": [
+        "解説",
+        "物語",
+        "商品紹介",
+        "AI動画・CG"
+      ],
+      "formats": [
+        "manga",
+        "drama"
+      ],
+      "placement": "本編と独立した冒頭素材、目安1〜4秒。直後に本編へ接続",
+      "avoid": "意味不明な暗いフレームを長くしない",
+      "evidence": "guidance",
+      "sources": [
+        "https://nabit.ai/ads",
+        "https://runneth.com/library/talk/the-30-ad-formats-every-top-brand-is-stealing-in-2025/"
+      ],
+      "modular": {
+        "status": "candidate",
+        "evidence_scope": "事例解説・公開制作ガイド由来。原動画全編・性能未検証",
+        "duration_hint": "1–4s",
+        "slots": "容器・人物・光・出口",
+        "local_payoff": "蓋が開いて顔や光が見える",
+        "exit": "開いた蓋と外側の明るさ",
+        "bridge": "話者・商品・本編のタイトルへ",
+        "reuse_test": "独立した本編2種類で同じ素材を使い、字幕・出口だけで接続できるか",
+        "body_contract": "本編を先に固定。短い報酬を冒頭内で回収し、接続後の内容を偽らない"
+      },
+      "scope": "modular-opener"
+    },
+    {
+      "id": "micro-trick-resolution",
+      "name": "小さな成功の瞬間",
+      "mechanism": "一回の無害な試みの成否に注意を集中させる",
+      "first_frame": "軽い物体が目標へ向かう",
+      "text_example": "（任意。本編の題名・主張だけを差し替える）",
+      "best_for": [
+        "解説",
+        "物語",
+        "商品紹介",
+        "AI動画・CG"
+      ],
+      "formats": [
+        "manga",
+        "drama"
+      ],
+      "placement": "本編と独立した冒頭素材、目安1〜4秒。直後に本編へ接続",
+      "avoid": "危険な挑戦・失敗事故・未回収の試みは使わない",
+      "evidence": "guidance",
+      "sources": [
+        "https://tweenery.com/tools/video-hooks",
+        "https://viralhooks.org/database/41140-creative-transition-for-product-promo/"
+      ],
+      "modular": {
+        "status": "candidate",
+        "evidence_scope": "事例解説・公開制作ガイド由来。原動画全編・性能未検証",
+        "duration_hint": "1–4s",
+        "slots": "軽い物体・目標・軌道",
+        "local_payoff": "着地・停止・到達を短時間で見せる",
+        "exit": "成功フレーム・音",
+        "bridge": "成功と同時に文字や次のカット",
+        "reuse_test": "独立した本編2種類で同じ素材を使い、字幕・出口だけで接続できるか",
+        "body_contract": "本編を先に固定。短い報酬を冒頭内で回収し、接続後の内容を偽らない"
+      },
+      "scope": "modular-opener"
+    },
+    {
+      "id": "illusion-snap",
+      "name": "錯視の解除",
+      "mechanism": "脳が補った形や方向が変わる瞬間に引き付ける",
+      "first_frame": "錯視のあるパターンや強制遠近",
+      "text_example": "（任意。本編の題名・主張だけを差し替える）",
+      "best_for": [
+        "解説",
+        "物語",
+        "商品紹介",
+        "AI動画・CG"
+      ],
+      "formats": [
+        "manga",
+        "drama"
+      ],
+      "placement": "本編と独立した冒頭素材、目安1〜4秒。直後に本編へ接続",
+      "avoid": "見づらい映像や長い謎解きにしない",
+      "evidence": "guidance",
+      "sources": [
+        "https://tweenery.com/tools/video-hooks",
+        "https://nabit.ai/ads"
+      ],
+      "modular": {
+        "status": "candidate",
+        "evidence_scope": "事例解説・公開制作ガイド由来。原動画全編・性能未検証",
+        "duration_hint": "1–4s",
+        "slots": "図形・視点・仕掛け",
+        "local_payoff": "カメラを少し動かして正体を示す",
+        "exit": "実際の形・視点が確定",
+        "bridge": "本編タイトルに変換またはカット",
+        "reuse_test": "独立した本編2種類で同じ素材を使い、字幕・出口だけで接続できるか",
+        "body_contract": "本編を先に固定。短い報酬を冒頭内で回収し、接続後の内容を偽らない"
+      },
+      "scope": "modular-opener"
+    },
+    {
+      "id": "physical-text-unveil",
+      "name": "文字の物理的出現",
+      "mechanism": "実物の操作でメッセージが現れる",
+      "first_frame": "紙・札・折り畳まれたカードを手に持つ",
+      "text_example": "（任意。本編の題名・主張だけを差し替える）",
+      "best_for": [
+        "解説",
+        "物語",
+        "商品紹介",
+        "AI動画・CG"
+      ],
+      "formats": [
+        "manga",
+        "drama"
+      ],
+      "placement": "本編と独立した冒頭素材、目安1〜4秒。直後に本編へ接続",
+      "avoid": "長文や偽の通知・証拠にしない",
+      "evidence": "guidance",
+      "sources": [
+        "https://nabit.ai/ads",
+        "https://runneth.com/library/talk/the-30-ad-formats-every-top-brand-is-stealing-in-2025/",
+        "https://contentdept.com.au/resources/social-media-hooks/"
+      ],
+      "modular": {
+        "status": "candidate",
+        "evidence_scope": "事例解説・公開制作ガイド由来。原動画全編・性能未検証",
+        "duration_hint": "1–4s",
+        "slots": "文字・紙・手・背景",
+        "local_payoff": "開く・剥がす・並べて短い題名を提示",
+        "exit": "読める文字面",
+        "bridge": "題名に合う本編へ直結",
+        "reuse_test": "独立した本編2種類で同じ素材を使い、字幕・出口だけで接続できるか",
+        "body_contract": "本編を先に固定。短い報酬を冒頭内で回収し、接続後の内容を偽らない"
+      },
+      "scope": "modular-opener"
+    },
+    {
+      "id": "screen-entry",
+      "name": "画面から本編へ侵入",
+      "mechanism": "端末や写真の中の視点を連続的に拡大して場面移行する",
+      "first_frame": "スマホ・印刷写真の一部が大きく映る",
+      "text_example": "（任意。本編の題名・主張だけを差し替える）",
+      "best_for": [
+        "解説",
+        "物語",
+        "商品紹介",
+        "AI動画・CG"
+      ],
+      "formats": [
+        "manga",
+        "drama"
+      ],
+      "placement": "本編と独立した冒頭素材、目安1〜4秒。直後に本編へ接続",
+      "avoid": "偽UI・偽証拠を実物に見せない",
+      "evidence": "guidance",
+      "sources": [
+        "https://runneth.com/library/talk/the-30-ad-formats-every-top-brand-is-stealing-in-2025/",
+        "https://nabit.ai/ads"
+      ],
+      "modular": {
+        "status": "candidate",
+        "evidence_scope": "事例解説・公開制作ガイド由来。原動画全編・性能未検証",
+        "duration_hint": "1–4s",
+        "slots": "画面・画像・拡大方向",
+        "local_payoff": "画面内へ寄って実映像・図解に切り替わる",
+        "exit": "画面境界が消えるフレーム",
+        "bridge": "本編の同じ画像・UIから開始",
+        "reuse_test": "独立した本編2種類で同じ素材を使い、字幕・出口だけで接続できるか",
+        "body_contract": "本編を先に固定。短い報酬を冒頭内で回収し、接続後の内容を偽らない"
+      },
+      "scope": "modular-opener"
+    },
+    {
+      "id": "arrival-address",
+      "name": "突然の登場から話者へ",
+      "mechanism": "人物の動きの終了が発話の開始点になる",
+      "first_frame": "画面外から人物や手がすぐ入る",
+      "text_example": "（任意。本編の題名・主張だけを差し替える）",
+      "best_for": [
+        "解説",
+        "物語",
+        "商品紹介",
+        "AI動画・CG"
+      ],
+      "formats": [
+        "manga",
+        "drama"
+      ],
+      "placement": "本編と独立した冒頭素材、目安1〜4秒。直後に本編へ接続",
+      "avoid": "不自然な演技や長い歩行を避ける",
+      "evidence": "guidance",
+      "sources": [
+        "https://contentdept.com.au/resources/social-media-hooks/",
+        "https://runneth.com/library/talk/the-30-ad-formats-every-top-brand-is-stealing-in-2025/"
+      ],
+      "modular": {
+        "status": "candidate",
+        "evidence_scope": "事例解説・公開制作ガイド由来。原動画全編・性能未検証",
+        "duration_hint": "1–4s",
+        "slots": "動き・入り方・視線",
+        "local_payoff": "所定位置で止まり視線を合わせる",
+        "exit": "安定した話者ショット",
+        "bridge": "そのまま本編の最初の一文",
+        "reuse_test": "独立した本編2種類で同じ素材を使い、字幕・出口だけで接続できるか",
+        "body_contract": "本編を先に固定。短い報酬を冒頭内で回収し、接続後の内容を偽らない"
+      },
+      "scope": "modular-opener"
     }
   ]
 }
